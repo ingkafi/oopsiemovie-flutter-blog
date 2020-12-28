@@ -3,6 +3,7 @@ import 'package:oopsiemovie/dramapost.dart';
 import 'package:oopsiemovie/horrorpost.dart';
 import 'package:oopsiemovie/komedipost.dart';
 import 'package:oopsiemovie/recentpost.dart';
+import 'package:oopsiemovie/searchpost.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -35,14 +36,14 @@ class HomePage extends StatelessWidget {
               offset: Offset(0.0, -(height * 0.3 - height * 0.26)),
               child: Container(
                 width: width,
-                padding: EdgeInsets.only(top: 10),
+                padding: EdgeInsets.only(top: 15),
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(30),
                         topRight: Radius.circular(30))),
                 child: DefaultTabController(
-                    length: 5,
+                    length: 6,
                     child: Column(
                       children: <Widget>[
                         TabBar(
@@ -56,6 +57,9 @@ class HomePage extends StatelessWidget {
                           indicatorSize: TabBarIndicatorSize.label,
                           indicatorColor: Colors.transparent,
                           tabs: <Widget>[
+                            Tab(
+                              child: Text("Search"),
+                            ),
                             Tab(
                               child: Text("Recent Post"),
                             ),
@@ -76,35 +80,11 @@ class HomePage extends StatelessWidget {
                         SizedBox(
                           height: 5,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 20, right: 20, bottom: 10),
-                          child: TextField(
-                            decoration: InputDecoration(
-                              contentPadding:
-                                  EdgeInsets.symmetric(vertical: 3),
-                              prefixIcon: Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 15, right: 15),
-                                child: Icon(
-                                  Icons.search,
-                                  size: 30,
-                                ),
-                              ),
-                              hintText: "Cari review film",
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30),
-                                borderSide: BorderSide(
-                                    width: 1.0, color: Colors.grey[400]
-                                )
-                              )
-                            ),
-                          ),
-                        ),
                         Container(
                           height: height * 0.6,
                           child: TabBarView(
                             children: <Widget>[
+                              PostFilter(),
                               RecentPost(),
                               ActionPost(),
                               KomediPost(),

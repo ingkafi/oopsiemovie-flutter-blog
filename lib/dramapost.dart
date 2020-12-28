@@ -18,7 +18,8 @@ class DramaPost extends StatefulWidget {
 
 class _DramaPostState extends State<DramaPost> {
   Future<List> getData() async {
-    final response = await http.get("https://oopsie-movie.000webhostapp.com/webservices/get_drama.php");
+    final response = await http.get(
+        "https://oopsie-movie.000webhostapp.com/webservices/get_recent.php");
     return json.decode(response.body);
   }
 
@@ -46,42 +47,46 @@ class _DramaPostState extends State<DramaPost> {
 class ItemList extends StatelessWidget {
   final List list;
   ItemList({this.list});
-  //var posturl = list['https://oopsie-movie.000webhostapp.com/penulis/Upload/Image/']['file_gambar'];
-
   @override
   Widget build(BuildContext context) {
     return new ListView.builder(
       itemCount: list == null ? 0 : list.length,
       itemBuilder: (context, index) {
-        return new Container(
-          padding: const EdgeInsets.all(3.0),
-          child: new GestureDetector(
-            onTap: ()=>Navigator.of(context).push(
-              new MaterialPageRoute(
-                builder: (BuildContext context)=> new Detail(list:list , index: index,)
-              )
-            ),
-            child: new Card(
-              child: new ListTile(
-                title: new Text(list[index]['judul']),
-                leading: new Container(
-                  width: 60,
-                  height: 60,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(60 / 2),
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: NetworkImage(
-                          'https://oopsie-movie.000webhostapp.com/penulis/Upload/Image/' +
-                              '${list[index]['gambar']}'),
+        if (list[index]['namakategori'] == 'Drama') {
+          return new Container(
+            padding: const EdgeInsets.all(0),
+            child: new GestureDetector(
+              onTap: () => Navigator.of(context).push(new MaterialPageRoute(
+                  builder: (BuildContext context) => new Detail(
+                        list: list,
+                        index: index,
+                      ))),
+              child: new Card(
+                child: new ListTile(
+                  title: new Text('\n' + list[index]['judul']),
+                  leading: new Container(
+                    width: 60,
+                    height: 90,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(60 / 2),
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(
+                            'https://oopsie-movie.000webhostapp.com/penulis/Upload/Image/' +
+                                '${list[index]['gambar']}'),
+                      ),
                     ),
                   ),
+                  subtitle: new Text(
+                      "Upload pada : ${list[index]['tgl']}\nPenulis : ${list[index]['namapenulis']}" +
+                          '\n'),
                 ),
-                subtitle: new Text("Upload pada : ${list[index]['tgl']}\nPenulis : ${list[index]['namapenulis']}"),
               ),
             ),
-            ),
           );
+        }else {
+            return Container();
+          }
       },
     );
   }
